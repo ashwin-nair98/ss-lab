@@ -45,6 +45,7 @@ int main(int argc, char const *argv[])
 			// Process ends here
 			for(j = 0; j < n; j++)
 			{
+				// Add current execution time to waiting time of other processes that has not completed execution
 				if(process_list[j].exec_time_left < 1 || i==j)
 					continue;
 				else
@@ -52,6 +53,7 @@ int main(int argc, char const *argv[])
 					process_list[j].wait_time += process_list[i].exec_time_left;
 				}
 			}
+			// Set the turn around time, increase counter
 			process_list[i].turn_around_time = process_list[i].wait_time + process_list[i].burst_time;
 			counter_burst_time += process_list[i].exec_time_left;
 			process_list[i].exec_time_left = 0;
@@ -62,11 +64,13 @@ int main(int argc, char const *argv[])
 			// Process executes for time slice and then continues
 			for(j = 0; j < n; j++)
 			{
+				// Add current execution time to waiting time of other processes that has not completed execution
 				if(process_list[j].exec_time_left < 1 || i==j)
 					continue;
 				else
 					process_list[j].wait_time += slice;
 			}
+			// Reduce execution time left, increase counter
 			process_list[i].exec_time_left -= slice;
 			counter_burst_time += slice;
 
